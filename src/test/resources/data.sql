@@ -1,0 +1,12 @@
+CREATE SCHEMA IF NOT EXISTS app;
+-- INSERT INTO app.game (id, description, development_year, score, title) VALUES
+-- (1, 'Tetris is a puzzle video game created in 1984 by Alexey Pajitnov. Players must arrange falling tetrominoes to clear lines.', 1984, 9.5, 'Tetris'),
+-- (2, 'Pac-Man is an arcade game developed by Namco in 1980. Players navigate Pac-Man through a maze, eating pellets and avoiding ghosts.', 1980, 9.2, 'Pac-Man'),
+-- (3, 'Space Invaders is a 1978 arcade shooter by Tomohiro Nishikado. Players control a laser cannon to defeat waves of aliens.', 1978, 8.9, 'Space Invaders'),
+-- (4, 'Donkey Kong is a 1981 arcade platformer by Nintendo. Players control Jumpman (Mario) to rescue Pauline from Donkey Kong.', 1981, 9.0, 'Donkey Kong'),
+-- (5, 'The Legend of Zelda is a 1986 action-adventure game by Nintendo. Players guide Link to rescue Princess Zelda and defeat Ganon.', 1986, 9.7, 'The Legend of Zelda'),
+-- (6, 'Super Mario Bros. is a 1985 platform game by Nintendo. Players control Mario as he travels through the Mushroom Kingdom.', 1985, 9.8, 'Super Mario Bros.'),
+-- (7, 'Pong is a 1972 table tennis arcade game by Atari. Players control paddles to hit a ball back and forth.', 1972, 8.5, 'Pong'),
+-- (8, 'Metroid is a 1986 action-adventure game by Nintendo. Players control Samus Aran as she explores the planet Zebes.', 1986, 9.1, 'Metroid'),
+-- (9, 'Street Fighter II is a 1991 fighting game by Capcom. Players compete in one-on-one combat with a variety of characters.', 1991, 9.3, 'Street Fighter II'),
+-- (10, 'Sonic the Hedgehog is a 1991 platform game by Sega. Players control Sonic as he battles Dr. Robotnik and collects rings.', 1991, 9.0, 'Sonic the Hedgehog');

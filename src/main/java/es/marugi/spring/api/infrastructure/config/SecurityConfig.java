@@ -55,11 +55,11 @@ public class SecurityConfig {
             .logout(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/games", "/games/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/games", "/games/**", "/v1/games", "/v1/games/**").permitAll()
                 .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/games").authenticated()
-                .requestMatchers(HttpMethod.PUT, "/games/**").authenticated()
-                .requestMatchers(HttpMethod.DELETE, "/games/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/games", "/v1/games").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/games/**", "/v1/games/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/games/**", "/v1/games/**").authenticated()
                 .anyRequest().denyAll()
             )
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));

@@ -26,6 +26,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/games")
+@Deprecated(since = "API First migration to /v1/games")
 public class GameController {
     private final GameQueryService gameQueryService;
     private final GameCommandService gameCommandService;

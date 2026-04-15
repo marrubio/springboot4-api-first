@@ -183,6 +183,8 @@ mvn test -Dtest=*ArchitectureTest
 ## 📋 Functional Overview
 
 - REST API for game management
+- API First endpoints available at `/api/v1/games` (GET public, POST/PUT/DELETE authenticated outside `test` profile)
+- Legacy endpoints at `/api/games` are kept temporarily for backward compatibility during migration
 - Authentication via Keycloak
 - Database integration (PostgreSQL/H2)
 

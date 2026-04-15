@@ -180,17 +180,22 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/src/main/resources/api/openapi.yaml</inputSpec>
+							<inputSpec>src/main/resources/api/openapi.yaml</inputSpec>
 							<generatorName>spring</generatorName>
 							<apiPackage>es.marugi.spring.api.generated.api</apiPackage>
 							<modelPackage>es.marugi.spring.api.generated.model</modelPackage>
 							<invokerPackage>es.marugi.spring.api.generated.invoker</invokerPackage>
-							<generateSupportingFiles>false</generateSupportingFiles>
+							<!-- generateSupportingFiles>false</generateSupportingFiles -->
+							<generateSupportingFiles>true</generateSupportingFiles>
+							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
 							<configOptions>
 								<delegatePattern>true</delegatePattern>
-								<interfaceOnly>true</interfaceOnly>
+								<!-- interfaceOnly>true</interfaceOnly -->
+								<!-- skipDefaultInterface>true</skipDefaultInterface -->
 								<useSpringBoot3>true</useSpringBoot3>
 								<openApiNullable>false</openApiNullable>
+								<prependFormOrBodyParameters>true</prependFormOrBodyParameters>
+								<generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
 							</configOptions>
 						</configuration>
 					</execution>

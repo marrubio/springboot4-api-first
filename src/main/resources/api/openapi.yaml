@@ -5,16 +5,16 @@ info:
   description: REST API for game management using API First paradigm
 
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:8080/api
     description: Local
-  - url: https://api.example.com
+  - url: https://api.example.com/api
     description: Production
 
 security:
   - oauth2: []
 
 paths:
-  /api/games:
+  /v1/games:
     get:
       tags: [Games]
       operationId: listGames
@@ -89,7 +89,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
-  /api/games/{id}:
+  /v1/games/{id}:
     get:
       tags: [Games]
       operationId: getGameById

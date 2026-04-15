@@ -72,6 +72,24 @@ mvn test -f backend/pom.xml -Dspring.profiles.active=test
 
 You must provide database credentials and URL as environment variables. These are not stored in `application.properties` for security reasons.
 
+### 🐘 Running PostgreSQL Locally via Podman (Dev Profile)
+
+To run a local instance of PostgreSQL using **Podman** properly configured for the `dev` profile (`app_user`, `pass123`, `postgres` database, and `app` schema), execute the following commands in your terminal:
+
+```bash
+# 1. Start the PostgreSQL container
+podman run -d \
+  --name local-postgres \
+  -e POSTGRES_DB=postgres \
+  -e POSTGRES_USER=app_user \
+  -e POSTGRES_PASSWORD=pass123 \
+  -p 5432:5432 \
+  postgres:15
+
+# 2. Wait a few seconds for the database to boot, then create the "app" schema
+podman exec -it local-postgres psql -U app_user -d postgres -c "CREATE SCHEMA IF NOT EXISTS app;"
+```
+
 ### 🔑 Required Environment Variables
 
 - `DB_URL`: JDBC connection URL (e.g. `jdbc:postgresql://localhost:5432/testdb?currentSchema=app`)

@@ -349,26 +349,26 @@ For `src/main/resources/application-test.properties`:
 
 ---
 
-### ☐ Task 5.2: Create Swagger Configuration (Optional)
+### ☑ Task 5.2: Create Swagger Configuration (Optional)
 
 **Description:** Create customized Swagger configuration class
 
 **Changes required:**
-- [ ] Create file: `src/main/java/es/marugi/spring/api/infrastructure/config/SwaggerConfig.java`
-- [ ] Annotate class with: `@Configuration`
-- [ ] Create method annotated with: `@Bean public OpenAPI customOpenAPI()`
-- [ ] Configure OpenAPI object:
-  - [ ] Set title: "Game API"
-  - [ ] Set version: "1.0.0"
-  - [ ] Set description: "REST API for game management using API First paradigm"
-  - [ ] Add contact information:
-    - [ ] Name: "Development Team"
-    - [ ] Email: "development@example.com"
+- [x] Create file: `src/main/java/es/marugi/spring/api/infrastructure/config/SwaggerConfig.java`
+- [x] Annotate class with: `@Configuration`
+- [x] Create method annotated with: `@Bean public OpenAPI customOpenAPI()`
+- [x] Configure OpenAPI object:
+  - [x] Set title: "Game API"
+  - [x] Set version: "1.0.0"
+  - [x] Set description: "REST API for game management using API First paradigm"
+  - [x] Add contact information:
+    - [x] Name: "Mario Rubio"
+    - [x] Email: "marugi@gmail.com"
 
 **Validation:**
-- [ ] Class compiles without errors
-- [ ] Bean is created successfully
-- [ ] Configuration is applied
+- [x] Class compiles without errors
+- [x] Bean is created successfully
+- [x] Configuration is applied
 
 **Files affected:** `src/main/java/es/marugi/spring/api/infrastructure/config/SwaggerConfig.java` (NEW, OPTIONAL)
 
@@ -507,7 +507,7 @@ For `src/test/java/es/marugi/spring/api/arch/NamingConventionTest.java`:
 
 ## Phase 7: Documentation (30-45 minutes)
 
-### ☐ Task 7.1: Update README.md
+### ☑ Task 7.1: Update README.md
 
 **Description:** Update README with API First and Swagger UI information
 
@@ -516,63 +516,63 @@ For `src/test/java/es/marugi/spring/api/arch/NamingConventionTest.java`:
 In `README.md`, add the following sections (use English):
 
 **Section 1: After "🏗️ Architecture" (around line 30)**
-- [ ] New section: "🎯 API First Development"
-- [ ] Explain API First paradigm
-- [ ] Location of OpenAPI contract: `src/main/resources/api/openapi.yaml`
-- [ ] Auto-generated code location
-- [ ] How to access Swagger UI
+- [x] New section: "🎯 API First Development"
+- [x] Explain API First paradigm
+- [x] Location of OpenAPI contract: `src/main/resources/api/openapi.yaml`
+- [x] Auto-generated code location
+- [x] How to access Swagger UI
 
 **Section 2: After "📋 Functional Overview" (around line 173)**
-- [ ] New section: "📐 Swagger UI Configuration"
-- [ ] Configuration properties
-- [ ] How to access Swagger UI: `http://localhost:8080/swagger-ui.html`
-- [ ] How to view OpenAPI JSON
-- [ ] How to test endpoints from UI
+- [x] New section: "📐 Swagger UI Configuration"
+- [x] Configuration properties
+- [x] How to access Swagger UI: `http://localhost:8080/swagger-ui.html`
+- [x] How to view OpenAPI JSON
+- [x] How to test endpoints from UI
 
 **Section 3: Update "📋 Functional Overview" section**
-- [ ] Replace with new endpoint descriptions
-- [ ] List all CRUD endpoints
-- [ ] Add OAuth2 information
-- [ ] Add database integration notes
+- [x] Replace with new endpoint descriptions
+- [x] List all CRUD endpoints
+- [x] Add OAuth2 information
+- [x] Add database integration notes
 
 **Section 4: Add new section "🔄 Development Workflow"**
-- [ ] How to add a new endpoint
-- [ ] How to modify existing endpoints
-- [ ] Code generation troubleshooting
+- [x] How to add a new endpoint
+- [x] How to modify existing endpoints
+- [x] Code generation troubleshooting
 
 **Section 5: Add new section "📚 References & Further Reading"**
-- [ ] Links to OpenAPI 3.1 specification
-- [ ] Links to Springdoc documentation
-- [ ] Links to Spring Boot guides
+- [x] Links to OpenAPI 3.1 specification
+- [x] Links to Springdoc documentation
+- [x] Links to Spring Boot guides
 
 **Validation:**
-- [ ] All sections are properly formatted
-- [ ] Markdown syntax is correct
-- [ ] All links are working
-- [ ] Content is clear and helpful
-- [ ] No spelling or grammar errors
+- [x] All sections are properly formatted
+- [x] Markdown syntax is correct
+- [x] All links are working
+- [x] Content is clear and helpful
+- [x] No spelling or grammar errors
 
 **Files affected:** `README.md`
 
 ---
 
-### ☐ Task 7.2: Create API Development Guide (Optional)
+### ☑ Task 7.2: Create API Development Guide (Optional)
 
 **Description:** Create additional documentation for API development
 
 **Changes required:**
-- [ ] Create file: `API_DEVELOPMENT.md` (optional)
-- [ ] Document the workflow for adding new endpoints:
-  - [ ] Step 1: Edit `openapi.yaml`
-  - [ ] Step 2: Run `mvn clean compile`
-  - [ ] Step 3: Implement delegate method
-  - [ ] Step 4: Write tests
-  - [ ] Step 5: Verify in Swagger UI
+- [x] Create file: `API_DEVELOPMENT.md` (optional)
+- [x] Document the workflow for adding new endpoints:
+  - [x] Step 1: Edit `openapi.yaml`
+  - [x] Step 2: Run `mvn clean compile`
+  - [x] Step 3: Implement delegate method
+  - [x] Step 4: Write tests
+  - [x] Step 5: Verify in Swagger UI
 
 **Validation:**
-- [ ] Guide is clear and complete
-- [ ] Examples are provided
-- [ ] Steps are in correct order
+- [x] Guide is clear and complete
+- [x] Examples are provided
+- [x] Steps are in correct order
 
 **Files affected:** `API_DEVELOPMENT.md` (NEW, OPTIONAL)
 
@@ -631,9 +631,9 @@ Project is successfully converted to API First when:
 | 2 | OpenAPI Specification | ☑ Completed (2.1 & 2.2: ✅ Done) | 20-30 min | ___ / ___ |
 | 3 | Code Generation | ☑ Completed (3.1 & 3.2: ✅ Done) | 10-15 min | ___ / ___ |
 | 4 | Implementation | ☑ Completed (4.1, 4.2, 4.3: done) | 60-90 min | ___ / ___ |
-| 5 | Swagger UI | ◐ In Progress (5.1 and 5.3 done, 5.2 optional pending) | 15-20 min | ___ / ___ |
+| 5 | Swagger UI | ☑ Completed (5.1, 5.2, 5.3: all done) | 15-20 min | ___ / ___ |
 | 6 | Testing | ☑ Completed (6.1, 6.2, 6.3: all done) | 30-45 min | ___ / ___ |
-| 7 | Documentation | ☐ Not Started | 30-45 min | ___ / ___ |
+| 7 | Documentation | ☑ Completed (7.1 & 7.2: done) | 30-45 min | ___ / ___ |
 | **TOTAL** | **API First Ready** | **☐ Not Started** | **3-4 hours** | ___ / ___ |
 
 ---

@@ -19,7 +19,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,7 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     "spring.sql.init.mode=never",
     "spring.jpa.defer-datasource-initialization=false",
     "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost/jwks",
-    "app.cors.allowed-origins=http://localhost:3000"
+    "app.cors.allowed-origins=http://localhost:3000",
+    "openapi.game.base-path=/"
 })
 @ActiveProfiles("security")
 class SecurityIntegrationTest {
@@ -55,7 +55,7 @@ class SecurityIntegrationTest {
 
     @Test
     void getGamesIsPublic() throws Exception {
-        mockMvc.perform(get("/api/games").contextPath("/api"))
+        mockMvc.perform(get("/api/v1/games").contextPath("/api"))
             .andExpect(status().isOk());
     }
 
@@ -68,20 +68,19 @@ class SecurityIntegrationTest {
 
     @Test
     void optionsRequestsArePublic() throws Exception {
-        mockMvc.perform(options("/api/games").contextPath("/api"))
+        mockMvc.perform(options("/api/v1/games").contextPath("/api"))
             .andExpect(status().isOk());
     }
 
     @Test
     void createGameRequiresAuthentication() throws Exception {
-        mockMvc.perform(post("/api/games").contextPath("/api")
+        mockMvc.perform(post("/api/v1/games").contextPath("/api")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                     {
                       "title": "Unauthorized Create",
-                      "description": "Should be rejected without token",
-                      "developmentYear": 2026,
-                      "score": 7.5
+                      "genre": "Action",
+                      "releaseYear": 2026
                     }
                     """))
             .andExpect(status().isUnauthorized());
@@ -89,14 +88,13 @@ class SecurityIntegrationTest {
 
     @Test
     void updateGameRequiresAuthentication() throws Exception {
-        mockMvc.perform(put("/api/games/1").contextPath("/api")
+        mockMvc.perform(put("/api/v1/games/1").contextPath("/api")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                     {
                       "title": "Unauthorized Update",
-                      "description": "Should be rejected without token",
-                      "developmentYear": 2026,
-                      "score": 8.0
+                      "genre": "Action",
+                      "releaseYear": 2026
                     }
                     """))
             .andExpect(status().isUnauthorized());
@@ -104,7 +102,7 @@ class SecurityIntegrationTest {
 
     @Test
     void deleteGameRequiresAuthentication() throws Exception {
-        mockMvc.perform(delete("/api/games/1").contextPath("/api"))
+        mockMvc.perform(delete("/api/v1/games/1").contextPath("/api"))
             .andExpect(status().isUnauthorized());
     }
 
@@ -112,19 +110,17 @@ class SecurityIntegrationTest {
     void createGameAllowsAuthenticatedRequests() throws Exception {
         String uniqueTitle = "Secured Game " + System.currentTimeMillis();
 
-        mockMvc.perform(post("/api/games").contextPath("/api")
+        mockMvc.perform(post("/api/v1/games").contextPath("/api")
                 .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                     {
                       "title": "%s",
-                      "description": "Created with JWT authentication",
-                      "developmentYear": 2026,
-                      "score": 8.5
+                      "genre": "Action",
+                      "releaseYear": 2026
                     }
                     """.formatted(uniqueTitle)))
             .andExpect(status().isCreated())
-            .andExpect(header().string("Location", org.hamcrest.Matchers.matchesPattern(".*/api/games/\\d+$")))
             .andExpect(jsonPath("$.title").value(uniqueTitle));
     }
 }

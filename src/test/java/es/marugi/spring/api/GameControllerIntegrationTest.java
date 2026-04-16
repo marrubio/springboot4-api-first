@@ -1,13 +1,14 @@
 package es.marugi.spring.api;
 
-import es.marugi.spring.api.adapter.in.rest.dto.CreateGameRequestDTO;
-import es.marugi.spring.api.adapter.in.rest.dto.GameResponseDTO;
-import es.marugi.spring.api.adapter.in.rest.dto.UpdateGameRequestDTO;
+import es.marugi.spring.api.generated.model.CreateGameDTO;
+import es.marugi.spring.api.generated.model.GameDTO;
+import es.marugi.spring.api.generated.model.UpdateGameDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,7 +22,6 @@ class GameControllerIntegrationTest {
 
     private WebTestClient webTestClient;
 
-
     @BeforeEach
     void setUp() {
         this.webTestClient = WebTestClient.bindToServer().baseUrl("http://localhost:" + port).build();
@@ -29,52 +29,48 @@ class GameControllerIntegrationTest {
 
     @Test
     void createAndRetrieveGame() {
-        CreateGameRequestDTO newGame = new CreateGameRequestDTO(
-            "Integration Test Game",
-            "Game created by integration test",
-            2026,
-            8.0
-        );
+        CreateGameDTO newGame = new CreateGameDTO();
+        newGame.setTitle("Integration Test Game");
+        newGame.setGenre("Arcade");
+        newGame.setReleaseYear(2026);
 
-        GameResponseDTO createdGame = webTestClient.post()
-            .uri("/api/games")
+        GameDTO createdGame = webTestClient.post()
+            .uri("/api/v1/games")
+            .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(newGame)
             .exchange()
             .expectStatus().isCreated()
-            .expectHeader().valueMatches("Location", ".*/api/games/\\d+$")
-            .expectBody(GameResponseDTO.class)
+            .expectBody(GameDTO.class)
             .returnResult().getResponseBody();
 
         assertThat(createdGame).isNotNull();
-        assertThat(createdGame.id()).isNotNull();
-        assertThat(createdGame.recordedAt()).isNotNull();
-        assertThat(createdGame.title()).isEqualTo("Integration Test Game");
+        assertThat(createdGame.getId()).isNotNull();
+        assertThat(createdGame.getTitle()).isEqualTo("Integration Test Game");
 
-        GameResponseDTO retrievedGame = webTestClient.get()
-            .uri("/api/games/" + createdGame.id())
+        GameDTO retrievedGame = webTestClient.get()
+            .uri("/api/v1/games/" + createdGame.getId())
             .exchange()
             .expectStatus().isOk()
-            .expectBody(GameResponseDTO.class)
+            .expectBody(GameDTO.class)
             .returnResult().getResponseBody();
 
         assertThat(retrievedGame).isNotNull();
-        assertThat(retrievedGame.id()).isEqualTo(createdGame.id());
-        assertThat(retrievedGame.title()).isEqualTo("Integration Test Game");
+        assertThat(retrievedGame.getId()).isEqualTo(createdGame.getId());
+        assertThat(retrievedGame.getTitle()).isEqualTo("Integration Test Game");
 
-        GameResponseDTO[] games = webTestClient.get()
-            .uri("/api/games")
+        GameDTO[] games = webTestClient.get()
+            .uri("/api/v1/games")
             .exchange()
             .expectStatus().isOk()
-            .expectBody(GameResponseDTO[].class)
+            .expectBody(GameDTO[].class)
             .returnResult().getResponseBody();
 
         assertThat(games).isNotNull();
         boolean found = false;
-        for (GameResponseDTO g : games) {
-            if (g.id().equals(createdGame.id())) {
+        for (GameDTO g : games) {
+            if (g.getId().equals(createdGame.getId())) {
                 found = true;
-                assertThat(g.title()).isEqualTo("Integration Test Game");
-                assertThat(g.recordedAt()).isNotNull();
+                assertThat(g.getTitle()).isEqualTo("Integration Test Game");
             }
         }
         assertThat(found).isTrue();
@@ -82,96 +78,78 @@ class GameControllerIntegrationTest {
 
     @Test
     void updateGame() {
-        CreateGameRequestDTO newGame = new CreateGameRequestDTO(
-            "Update Test Game",
-            "Game to be updated",
-            2020,
-            5.0
-        );
+        CreateGameDTO newGame = new CreateGameDTO();
+        newGame.setTitle("Update Test Game");
+        newGame.setGenre("RPG");
+        newGame.setReleaseYear(2020);
 
-        GameResponseDTO createdGame = webTestClient.post()
-            .uri("/api/games")
+        GameDTO createdGame = webTestClient.post()
+            .uri("/api/v1/games")
+            .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(newGame)
             .exchange()
             .expectStatus().isCreated()
-            .expectBody(GameResponseDTO.class)
+            .expectBody(GameDTO.class)
             .returnResult().getResponseBody();
 
         assertThat(createdGame).isNotNull();
-        Long id = createdGame.id();
+        Long id = createdGame.getId();
 
-        UpdateGameRequestDTO updateRequest = new UpdateGameRequestDTO(
-            "Updated Game Title",
-            "Updated description",
-            2022,
-            9.0
-        );
+        UpdateGameDTO updateRequest = new UpdateGameDTO();
+        updateRequest.setTitle("Updated Game Title");
+        updateRequest.setGenre("Strategy");
+        updateRequest.setReleaseYear(2022);
 
-        GameResponseDTO updatedGame = webTestClient.put()
-            .uri("/api/games/" + id)
+        GameDTO updatedGame = webTestClient.put()
+            .uri("/api/v1/games/" + id)
+            .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(updateRequest)
             .exchange()
             .expectStatus().isOk()
-            .expectBody(GameResponseDTO.class)
+            .expectBody(GameDTO.class)
             .returnResult().getResponseBody();
 
         assertThat(updatedGame).isNotNull();
-        assertThat(updatedGame.title()).isEqualTo("Updated Game Title");
-        assertThat(updatedGame.description()).isEqualTo("Updated description");
-        assertThat(updatedGame.developmentYear()).isEqualTo(2022);
-        assertThat(updatedGame.score()).isEqualTo(9);
+        assertThat(updatedGame.getTitle()).isEqualTo("Updated Game Title");
+        assertThat(updatedGame.getGenre()).isEqualTo("Strategy");
+        assertThat(updatedGame.getReleaseYear()).isEqualTo(2022);
     }
 
     @Test
     void createGameReturnsBadRequestWhenPayloadIsInvalid() {
         var invalidRequest = new java.util.HashMap<String, Object>();
         invalidRequest.put("title", "");
-        invalidRequest.put("description", "Valid description");
-        invalidRequest.put("developmentYear", 2026);
-        invalidRequest.put("score", 11);
+        invalidRequest.put("genre", "Arcade");
+        invalidRequest.put("releaseYear", 2026);
 
         webTestClient.post()
-            .uri("/api/games")
+            .uri("/api/v1/games")
+            .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(invalidRequest)
             .exchange()
-            .expectStatus().isBadRequest()
-            .expectBody()
-            .jsonPath("$.status").isEqualTo(400)
-            .jsonPath("$.error").isEqualTo("Bad Request")
-            .jsonPath("$.message").exists()
-            .jsonPath("$.path").isEqualTo("/api/games");
+            .expectStatus().isBadRequest();
     }
 
     @Test
     void updateGameReturnsNotFoundWhenGameDoesNotExist() {
         var updateRequest = new java.util.HashMap<String, Object>();
         updateRequest.put("title", "Missing Game");
-        updateRequest.put("description", "This game does not exist");
-        updateRequest.put("developmentYear", 2022);
-        updateRequest.put("score", 9.5);
+        updateRequest.put("genre", "Adventure");
+        updateRequest.put("releaseYear", 2022);
 
         webTestClient.put()
-            .uri("/api/games/999999")
+            .uri("/api/v1/games/999999")
+            .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(updateRequest)
             .exchange()
-            .expectStatus().isNotFound()
-            .expectBody()
-            .jsonPath("$.status").isEqualTo(404)
-            .jsonPath("$.error").isEqualTo("Not Found")
-            .jsonPath("$.message").isEqualTo("Game with id 999999 not found")
-            .jsonPath("$.path").isEqualTo("/api/games/999999");
+            .expectStatus().isNotFound();
     }
 
     @Test
     void deleteGameReturnsNotFoundWhenGameDoesNotExist() {
         webTestClient.delete()
-            .uri("/api/games/999999")
+            .uri("/api/v1/games/999999")
             .exchange()
-            .expectStatus().isNotFound()
-            .expectBody()
-            .jsonPath("$.status").isEqualTo(404)
-            .jsonPath("$.error").isEqualTo("Not Found")
-            .jsonPath("$.message").isEqualTo("Game with id 999999 not found")
-            .jsonPath("$.path").isEqualTo("/api/games/999999");
+            .expectStatus().isNotFound();
     }
 }

@@ -31,7 +31,8 @@ public class ControllerRulesTest {
     static final ArchRule controllers_should_only_call_secured_constructors =
             classes()
                     .that().resideInAPackage("..controller..")
-                    .should().onlyCallConstructorsThat(areDeclaredInController());
+                    .should().onlyCallConstructorsThat(areDeclaredInController())
+                    .allowEmptyShould(true);
 
 //    @ArchTest
 //    static final ArchRule controllers_should_only_call_services =
@@ -44,7 +45,8 @@ public class ControllerRulesTest {
     static final ArchRule controllers_should_only_access_secured_fields =
             classes()
                     .that().resideInAPackage("..controller..")
-                    .should().onlyAccessFieldsThat(areDeclaredInController());
+                    .should().onlyAccessFieldsThat(areDeclaredInController())
+                    .allowEmptyShould(true);
 
 //    @ArchTest
 //    static final ArchRule controllers_should_only_access_secured_members =

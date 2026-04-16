@@ -17,6 +17,8 @@
 	<properties>
 		<java.version>25</java.version>
 		<maven.compiler.parameters>true</maven.compiler.parameters>
+		<springdoc.version>2.8.2</springdoc.version>
+		<openapi.generator.version>7.6.0</openapi.generator.version>
 	</properties>
 
 	<dependencies>
@@ -105,6 +107,16 @@
 			<version>1.6.3</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+			<version>${springdoc.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -155,6 +167,39 @@
 						<org.slf4j.simpleLogger.defaultLogLevel>info</org.slf4j.simpleLogger.defaultLogLevel>
 					</systemPropertyVariables>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>${openapi.generator.version}</version>
+				<executions>
+					<execution>
+						<id>generate-openapi-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>src/main/resources/api/openapi.yaml</inputSpec>
+							<generatorName>spring</generatorName>
+							<apiPackage>es.marugi.spring.api.generated.api</apiPackage>
+							<modelPackage>es.marugi.spring.api.generated.model</modelPackage>
+							<invokerPackage>es.marugi.spring.api.generated.invoker</invokerPackage>
+							<!-- generateSupportingFiles>false</generateSupportingFiles -->
+							<generateSupportingFiles>true</generateSupportingFiles>
+							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+							<configOptions>
+								<delegatePattern>true</delegatePattern>
+								<!-- interfaceOnly>true</interfaceOnly -->
+								<!-- skipDefaultInterface>true</skipDefaultInterface -->
+								<useSpringBoot3>true</useSpringBoot3>
+								<openApiNullable>false</openApiNullable>
+								<prependFormOrBodyParameters>true</prependFormOrBodyParameters>
+								<generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

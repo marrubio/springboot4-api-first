@@ -151,7 +151,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.2.5</version>
 				<configuration>
-					<argLine>--add-opens java.base/sun.misc=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED --sun-misc-unsafe-memory-access=allow -XX:+UnlockDiagnosticVMOptions -XX:+UnlockExperimentalVMOptions</argLine>
+					<argLine>--add-opens java.base/sun.misc=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED -XX:+UnlockDiagnosticVMOptions -XX:+UnlockExperimentalVMOptions</argLine>
 					<systemPropertyVariables>
 						<org.slf4j.simpleLogger.defaultLogLevel>info</org.slf4j.simpleLogger.defaultLogLevel>
 					</systemPropertyVariables>
@@ -162,7 +162,7 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>3.2.5</version>
 				<configuration>
-					<argLine>--add-opens java.base/sun.misc=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED --sun-misc-unsafe-memory-access=allow -XX:+UnlockDiagnosticVMOptions -XX:+UnlockExperimentalVMOptions</argLine>
+					<argLine>--add-opens java.base/sun.misc=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED -XX:+UnlockDiagnosticVMOptions -XX:+UnlockExperimentalVMOptions</argLine>
 					<systemPropertyVariables>
 						<org.slf4j.simpleLogger.defaultLogLevel>info</org.slf4j.simpleLogger.defaultLogLevel>
 					</systemPropertyVariables>
@@ -218,7 +218,7 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<configuration>
-						<argLine>--add-opens java.base/sun.misc=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED --sun-misc-unsafe-memory-access=allow</argLine>
+						<argLine>--add-opens java.base/sun.misc=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED</argLine>
 							<systemPropertyVariables>
 								<spring.profiles.active>test</spring.profiles.active>
 							</systemPropertyVariables>
@@ -228,7 +228,7 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-failsafe-plugin</artifactId>
 					<configuration>
-						<argLine>--add-opens java.base/sun.misc=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED --sun-misc-unsafe-memory-access=allow</argLine>
+						<argLine>--add-opens java.base/sun.misc=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED</argLine>
 							<systemPropertyVariables>
 								<spring.profiles.active>test</spring.profiles.active>
 							</systemPropertyVariables>

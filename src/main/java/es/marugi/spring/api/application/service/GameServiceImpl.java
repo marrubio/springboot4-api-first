@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class GameServiceImpl implements GameQueryService, GameCommandService {
@@ -32,7 +31,7 @@ public class GameServiceImpl implements GameQueryService, GameCommandService {
     public List<GameDTO> getAllGames() {
         return gameRepository.findAll().stream()
                 .map(gameMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

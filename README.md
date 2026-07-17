@@ -248,6 +248,42 @@ mvn test -Dtest=*ArchitectureTest
 - **Database:** PostgreSQL for production/dev; H2 in-memory for tests.
 - **Validation:** Request payloads are validated automatically via Jakarta Bean Validation constraints defined in the OpenAPI spec.
 
+## 📬 Durable Game Events
+
+Every successful `POST`, `PUT`, and `DELETE` operation on a game creates a versioned event. The sample uses the **Transactional Outbox** pattern: the game mutation and its event are written to the same database transaction. Therefore, rolled-back or rejected commands do not produce events, and committed events survive application restarts without requiring a separate message broker.
+
+Each event has a UUID, type (`GameCreatedEvent`, `GameUpdatedEvent`, or `GameDeletedEvent`), version, occurrence time, game ID, and a full snapshot of the game. A deletion event retains the last snapshot captured before the row is removed.
+
+### RabbitMQ delivery
+
+The implementation uses [Gruelbox Transaction Outbox](https://github.com/gruelbox/transaction-outbox). It stores a deferred call to the `GameEventPublisher` in the library-managed `TXNO_OUTBOX` table in the same database transaction as the game mutation. After a successful commit, Gruelbox immediately invokes the RabbitMQ output adapter. A failed publication remains durable and is retried by the recovery job every 60 seconds. After three failed attempts, Gruelbox blocks the entry for operational review.
+
+The output adapter publishes persistent JSON messages with publisher confirms and mandatory returns enabled. A negative confirm, timeout, or unroutable return fails the deferred invocation so it can be retried. Delivery is at-least-once; consumers must use the event UUID for idempotency.
+
+RabbitMQ uses this durable topology:
+
+| Resource | Name | Purpose |
+|---|---|---|
+| Topic exchange | `game.events` | Routes game lifecycle events |
+| Primary queue | `game.events.queue` | Receives `games.#` events |
+| Dead-letter exchange | `game.events.dlx` | Receives rejected or expired primary messages |
+| Dead-letter queue | `game.events.dlq` | Retains dead-lettered messages |
+
+The routing keys are `games.created`, `games.updated`, and `games.deleted`.
+
+### Configuration
+
+Set the RabbitMQ connection URI at runtime through `RABBITMQ_URL`. Do not commit a broker URI, username, password, or other secret. Rotate any credential that was exposed outside the secret store.
+
+The recovery cadence is configured as follows:
+
+```properties
+spring.rabbitmq.addresses=${RABBITMQ_URL}
+app.events.recovery-delay=PT60S
+```
+
+The `test` profile uses an in-memory H2 outbox and a no-op publisher, so the default test suite does not connect to RabbitMQ. No REST endpoint or OpenAPI operation is added for event inspection.
+
 ## 📐 Swagger UI Configuration
 
 Springdoc is configured in `application.properties` (and per-profile overrides) with:

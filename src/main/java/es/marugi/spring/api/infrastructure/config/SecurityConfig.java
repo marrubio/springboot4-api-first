@@ -23,6 +23,8 @@ import java.util.List;
 @EnableConfigurationProperties(CorsProperties.class)
 public class SecurityConfig {
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+    public static final String PATH_V1_GAMES = "/v1/games";
+    public static final String PATH_V1_GAMES_ALL = "/v1/games/**";
     private final CorsProperties corsProperties;
 
     public SecurityConfig(CorsProperties corsProperties) {
@@ -55,12 +57,13 @@ public class SecurityConfig {
             .logout(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/v1/games", "/v1/games/**").permitAll()
+                .requestMatchers(HttpMethod.GET, PATH_V1_GAMES, PATH_V1_GAMES_ALL).permitAll()
                 .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/api-docs", "/api-docs/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/v1/games").authenticated()
-                .requestMatchers(HttpMethod.PUT, "/v1/games/**").authenticated()
-                .requestMatchers(HttpMethod.DELETE, "/v1/games/**").authenticated()
+                .requestMatchers(HttpMethod.POST, PATH_V1_GAMES).authenticated()
+                .requestMatchers(HttpMethod.PUT, PATH_V1_GAMES_ALL).authenticated()
+                .requestMatchers(HttpMethod.DELETE, PATH_V1_GAMES_ALL).authenticated()
+
                 .anyRequest().denyAll()
             )
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));

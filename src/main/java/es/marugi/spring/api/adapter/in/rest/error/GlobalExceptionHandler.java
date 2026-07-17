@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
         Exception exception,
         HttpServletRequest request
     ) {
-        logger.error("Unhandled exception on {} {}: {}", request.getMethod(), request.getRequestURI(), exception.toString(), exception);
+        logger.error("Unhandled exception on {} {}", request.getMethod(), request.getRequestURI(), exception);
         return buildErrorResponse(
             HttpStatus.INTERNAL_SERVER_ERROR,
             "An unexpected error occurred",

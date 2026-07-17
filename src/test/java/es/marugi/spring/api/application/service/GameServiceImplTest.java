@@ -3,8 +3,13 @@ package es.marugi.spring.api.application.service;
 import es.marugi.spring.api.application.dto.CreateGameDTO;
 import es.marugi.spring.api.application.dto.GameDTO;
 import es.marugi.spring.api.application.dto.UpdateGameDTO;
+import es.marugi.spring.api.application.event.GameCreatedEvent;
+import es.marugi.spring.api.application.event.GameDeletedEvent;
+import es.marugi.spring.api.application.event.GameEvent;
+import es.marugi.spring.api.application.event.GameUpdatedEvent;
 import es.marugi.spring.api.application.exception.GameNotFoundException;
 import es.marugi.spring.api.application.mapper.GameMapper;
+import es.marugi.spring.api.application.port.GameEventOutboxWriter;
 import es.marugi.spring.api.domain.model.Game;
 import es.marugi.spring.api.domain.repository.GameRepository;
 import org.junit.jupiter.api.Test;
@@ -15,6 +20,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.time.Clock;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +40,12 @@ class GameServiceImplTest {
 
     @Mock
     private GameMapper gameMapper;
+
+    @Mock
+    private GameEventOutboxWriter eventOutboxWriter;
+
+    @Mock
+    private Clock clock;
 
     @InjectMocks
     private GameServiceImpl gameService;
@@ -90,6 +103,7 @@ class GameServiceImplTest {
         when(gameMapper.toEntity(request)).thenReturn(entityToCreate);
         when(gameRepository.save(any(Game.class))).thenReturn(savedGame);
         when(gameMapper.toDTO(savedGame)).thenReturn(expected);
+        when(clock.instant()).thenReturn(Instant.parse("2026-07-17T10:00:00Z"));
 
         GameDTO result = gameService.createGame(request);
 
@@ -98,6 +112,11 @@ class GameServiceImplTest {
         assertThat(savedCaptor.getValue().getRecordedAt()).isNotNull();
         assertThat(savedCaptor.getValue().getTitle()).isEqualTo("Created Game");
         assertThat(result).isEqualTo(expected);
+
+        ArgumentCaptor<GameEvent> eventCaptor = ArgumentCaptor.forClass(GameEvent.class);
+        verify(eventOutboxWriter).enqueue(eventCaptor.capture());
+        assertThat(eventCaptor.getValue()).isInstanceOf(GameCreatedEvent.class);
+        assertThat(eventCaptor.getValue().snapshot().title()).isEqualTo("Created Game");
     }
 
     @Test
@@ -110,6 +129,7 @@ class GameServiceImplTest {
         when(gameRepository.findById(1L)).thenReturn(Optional.of(existingGame));
         when(gameRepository.save(existingGame)).thenReturn(updatedGame);
         when(gameMapper.toDTO(updatedGame)).thenReturn(expected);
+        when(clock.instant()).thenReturn(Instant.parse("2026-07-17T10:00:00Z"));
 
         GameDTO result = gameService.updateGame(1L, request);
 
@@ -118,6 +138,11 @@ class GameServiceImplTest {
         assertThat(existingGame.getDevelopmentYear()).isEqualTo(2027);
         assertThat(existingGame.getScore()).isEqualTo(9.5);
         assertThat(result).isEqualTo(expected);
+
+        ArgumentCaptor<GameEvent> eventCaptor = ArgumentCaptor.forClass(GameEvent.class);
+        verify(eventOutboxWriter).enqueue(eventCaptor.capture());
+        assertThat(eventCaptor.getValue()).isInstanceOf(GameUpdatedEvent.class);
+        assertThat(eventCaptor.getValue().snapshot().title()).isEqualTo("Updated Title");
     }
 
     @Test
@@ -129,16 +154,22 @@ class GameServiceImplTest {
             .hasMessage("Game with id 55 not found");
 
         verify(gameRepository, never()).save(any(Game.class));
+        verify(eventOutboxWriter, never()).enqueue(any(GameEvent.class));
     }
 
     @Test
     void deleteGameDeletesExistingGame() {
         Game existingGame = buildGame(3L, "Delete Me", 5.0);
         when(gameRepository.findById(3L)).thenReturn(Optional.of(existingGame));
+        when(clock.instant()).thenReturn(Instant.parse("2026-07-17T10:00:00Z"));
 
         gameService.deleteGame(3L);
 
         verify(gameRepository).deleteById(3L);
+        ArgumentCaptor<GameEvent> eventCaptor = ArgumentCaptor.forClass(GameEvent.class);
+        verify(eventOutboxWriter).enqueue(eventCaptor.capture());
+        assertThat(eventCaptor.getValue()).isInstanceOf(GameDeletedEvent.class);
+        assertThat(eventCaptor.getValue().snapshot().title()).isEqualTo("Delete Me");
     }
 
     @Test
@@ -150,6 +181,7 @@ class GameServiceImplTest {
             .hasMessage("Game with id 77 not found");
 
         verify(gameRepository, never()).deleteById(any(Long.class));
+        verify(eventOutboxWriter, never()).enqueue(any(GameEvent.class));
     }
 
     private Game buildGame(Long id, String title, Double score) {

@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     "spring.jpa.hibernate.ddl-auto=create-drop",
     "spring.sql.init.mode=never",
     "spring.jpa.defer-datasource-initialization=false",
+    "management.health.rabbit.enabled=false",
     "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost/jwks",
     "app.cors.allowed-origins=http://localhost:3000",
     "openapi.game.base-path=/"

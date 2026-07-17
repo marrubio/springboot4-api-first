@@ -19,6 +19,7 @@
 		<maven.compiler.parameters>true</maven.compiler.parameters>
 		<springdoc.version>3.0.3</springdoc.version>
 		<openapi.generator.version>7.23.0</openapi.generator.version>
+		<transaction.outbox.version>7.0.707</transaction.outbox.version>
 	</properties>
 
 	<dependencies>
@@ -50,6 +51,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-json</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
 		<dependency>
@@ -63,6 +68,15 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.gruelbox</groupId>
+			<artifactId>transactionoutbox-spring</artifactId>
+			<version>${transaction.outbox.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>

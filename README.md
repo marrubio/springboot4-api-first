@@ -94,6 +94,16 @@ mvn clean package -DskipTests
 mvn clean spring-boot:run
 ```
 
+### Example curl calls
+
+For quick manual smoke tests from the terminal, a Bash script with example `curl` requests is available at `src/test/resources/test-api-calls.sh`.
+
+```bash
+chmod +x src/test/resources/test-api-calls.sh
+./src/test/resources/test-api-calls.sh
+```
+
+The script targets the local API at `http://localhost:8080/api` and includes examples for `GET`, `POST`, `PUT`, and `DELETE` requests.
 
 ## ⚙️ Maven Profiles
 

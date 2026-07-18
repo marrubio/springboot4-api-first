@@ -284,6 +284,10 @@ app.events.recovery-delay=PT60S
 
 The `test` profile uses an in-memory H2 outbox and a no-op publisher, so the default test suite does not connect to RabbitMQ. No REST endpoint or OpenAPI operation is added for event inspection.
 
+```bash
+RABBITMQ_URL=amqps://user:password@ostrich.lmq.cloudamqp.com/schema
+```
+
 ## 📐 Swagger UI Configuration
 
 Springdoc is configured in `application.properties` (and per-profile overrides) with:

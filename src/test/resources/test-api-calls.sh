@@ -5,6 +5,7 @@ BASE_URL="http://localhost:8080/api/v1"
 
 echo "==> GET /games"
 curl -i "$BASE_URL/games"
+#curl -i "http://localhost:8080/api/v1/games"
 
 echo "\n==> GET /games/1"
 curl -i "$BASE_URL/games/1"

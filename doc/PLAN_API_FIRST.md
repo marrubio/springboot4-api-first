@@ -549,3 +549,4 @@ Ver archivo: `src/main/resources/api/openapi.yaml`
 **Documento preparado por:** Sistema de Planificación Automatizado  
 **Última actualización:** 2026-04-12  
 **Estado:** Listo para implementación
+

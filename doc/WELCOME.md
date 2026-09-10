@@ -480,3 +480,4 @@ Toda la información que necesitas está disponible.
 ---
 
 **¿Preguntas?** Consulta INDEX.md para navegar a la documentación adecuada.
+

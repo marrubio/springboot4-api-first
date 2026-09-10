@@ -296,7 +296,7 @@ Configuración simple sin Java Config (opcional)
 ## 🛠️ TECNOLOGÍAS INVOLUCRADAS
 
 ```
-Spring Boot 4.0.2 + Java 25
+Spring Boot 4.1.1 + Java 25
     ↓
 Spring Security + OAuth2
     ↓
@@ -480,4 +480,3 @@ Toda la información que necesitas está disponible.
 ---
 
 **¿Preguntas?** Consulta INDEX.md para navegar a la documentación adecuada.
-

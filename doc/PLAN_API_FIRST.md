@@ -34,7 +34,7 @@ Infrastructure (Config, Persistencia)
 ```
 
 **Características existentes:**
-- Spring Boot 4.0.2 con Java 25
+- Spring Boot 4.1.1 con Java 25
 - Arquitectura hexagonal (adapter/in, adapter/out, application, domain, infrastructure)
 - DTOs manuales para Game CRUD
 - MapStruct para mapeo DTO ↔ Entity
@@ -549,4 +549,3 @@ Ver archivo: `src/main/resources/api/openapi.yaml`
 **Documento preparado por:** Sistema de Planificación Automatizado  
 **Última actualización:** 2026-04-12  
 **Estado:** Listo para implementación
-

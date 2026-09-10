@@ -187,4 +187,3 @@ If unsure where to implement a change, follow this order:
 2. Check architecture tests to avoid violating package or naming rules.
 3. Keep changes consistent with the current implementation first.
 4. For API First tasks, align with `TASKS_TO_API_FIRST.md` and update progress clearly.
-

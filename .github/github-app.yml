@@ -1,6 +1,6 @@
 scripts:
   - name: Run Spring Boot
-    command: .\mvnw.cmd spring-boot:run
+    command: .\mvnw.cmd -Ptest spring-boot:run
 
 server_ready_pattern: '(?i)Tomcat started on port ([0-9]+)'
 auto_open_in_browser: true

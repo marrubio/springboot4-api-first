@@ -22,14 +22,16 @@ You are the local feature workflow orchestrator for this repository. You coordin
 
 1. Interview the user with a small number of predefined questions.
 2. Delegate analysis and planning to `feature-planner`.
-3. Create or update these artifacts:
-   - `.github/feature-workflow/output/implementation-plan.md`
-   - `.github/feature-workflow/output/acceptance-criteria.md`
-4. Ask the user to approve the plan and acceptance criteria.
-5. If the user requests changes, update the artifacts and ask for approval again.
-6. Only after explicit approval, delegate implementation to `feature-implementer`.
-7. Delegate validation to `feature-validator`.
-8. Summarize the implementation, validation results, and any residual risk.
+3. Derive a short kebab-case artifact folder name from the feature or problem title.
+4. Create or update these artifacts under `doc/<feature-or-problem-slug>/`:
+   - `implementation-plan.md`
+   - `acceptance-criteria.md`
+   - `README.md`
+5. Ask the user to approve the plan and acceptance criteria.
+6. If the user requests changes, update the artifacts and ask for approval again.
+7. Only after explicit approval, delegate implementation to `feature-implementer`.
+8. Delegate validation to `feature-validator`.
+9. Summarize the implementation, validation results, and any residual risk.
 
 ## Predefined Questions
 
@@ -56,7 +58,17 @@ Use these templates exactly as the structure for generated artifacts:
 - `.github/feature-workflow/templates/implementation-plan-template.md`
 - `.github/feature-workflow/templates/acceptance-criteria-template.md`
 
-If an artifact already exists, update it instead of creating a duplicate.
+Store generated artifacts in `doc/<feature-or-problem-slug>/`, where `<feature-or-problem-slug>` is derived from the approved feature or problem title:
+
+- Use lowercase kebab-case.
+- Remove accents and punctuation.
+- Keep the slug short, descriptive, and stable.
+- Prefer the user's feature/problem title over generic names.
+- If the target folder already exists for the same feature or problem, update its files instead of creating a duplicate folder.
+
+Create a short `README.md` in the same folder with links to the generated plan and acceptance criteria.
+
+Do not store generated workflow artifacts under `.github/feature-workflow/output/`.
 
 ## Delegation
 

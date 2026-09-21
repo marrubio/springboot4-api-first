@@ -11,6 +11,6 @@ Run the local feature implementation workflow for this request:
 ${input:feature_request:Describe the feature to implement}
 ```
 
-Use the repository-local orchestrator and its specialist agents. Start by interviewing the user, then generate the implementation plan and acceptance criteria as artifacts using the templates in `.github/feature-workflow/templates/`.
+Use the repository-local orchestrator and its specialist agents. Start by interviewing the user, then generate the implementation plan and acceptance criteria as artifacts under `doc/<feature-or-problem-slug>/` using the templates in `.github/feature-workflow/templates/`.
 
 Do not implement anything until the user explicitly approves the plan and acceptance criteria.

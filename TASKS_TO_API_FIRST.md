@@ -652,3 +652,24 @@ Project is successfully converted to API First when:
 **Version:** 1.0  
 **Status:** Ready to Execute
 
+
+
+
+
+ 
+
+Independiente de fabricantes y plataformas Tecnológicas (Vendor Agnostic)  
+
+Independencia de infraestructura (Cloud Agnostic) 
+
+Prioridad a estándares abiertos y tecnologías Open Source 
+
+Seguridad y segregación IT/OT desde el diseño 
+
+Gobierno y soberanía del dato 
+
+Escalabilidad y evolución continua 
+
+Transferencia de conocimiento y ausencia de dependencia del proveedor 
+
+IA al servicio de la operación, nunca al revés 

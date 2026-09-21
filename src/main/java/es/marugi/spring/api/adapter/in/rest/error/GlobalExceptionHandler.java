@@ -1,6 +1,8 @@
 package es.marugi.spring.api.adapter.in.rest.error;
 
 import es.marugi.spring.api.application.exception.GameNotFoundException;
+import es.marugi.spring.api.application.exception.UserConflictException;
+import es.marugi.spring.api.application.exception.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,22 @@ public class GlobalExceptionHandler {
         HttpServletRequest request
     ) {
         return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleUserNotFoundException(
+        UserNotFoundException exception,
+        HttpServletRequest request
+    ) {
+        return buildErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(UserConflictException.class)
+    public ResponseEntity<ApiErrorResponse> handleUserConflictException(
+        UserConflictException exception,
+        HttpServletRequest request
+    ) {
+        return buildErrorResponse(HttpStatus.CONFLICT, exception.getMessage(), request.getRequestURI());
     }
 
     @ExceptionHandler(Exception.class)

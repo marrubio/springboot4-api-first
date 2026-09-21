@@ -58,7 +58,7 @@ This project follows the **API First** paradigm: the OpenAPI specification is wr
 target/generated-sources/openapi/
 └── es/marugi/spring/api/generated/
     ├── api/        # V1Api, V1ApiController, V1ApiDelegate, ApiUtil
-    └── model/      # GameDTO, CreateGameDTO, UpdateGameDTO, ErrorResponse
+    └── model/      # Game and user DTOs, ErrorResponse
 ```
 
 > **Important:** Never edit files under `target/generated-sources/`. They are regenerated on every build.
@@ -239,8 +239,13 @@ mvn test -Dtest=*ArchitectureTest
 | `POST` | `/api/v1/games` | Yes (OAuth2) | Create a new game |
 | `PUT` | `/api/v1/games/{id}` | Yes (OAuth2) | Update an existing game |
 | `DELETE` | `/api/v1/games/{id}` | Yes (OAuth2) | Delete a game |
+| `GET` | `/api/users` | No | List users |
+| `POST` | `/api/users` | No | Create a user |
+| `PUT` | `/api/users/{id}` | No | Replace a user |
 
 > The legacy endpoints at `/api/games` have been removed. All traffic is now served by the API First endpoints above.
+
+User passwords are intentionally accepted and stored as plain text for this approved sample feature and are never returned in user responses. This is not suitable for production; password hashing and authentication remain outside this feature's scope.
 
 ### Key Integrations
 

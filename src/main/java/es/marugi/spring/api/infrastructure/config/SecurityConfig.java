@@ -25,6 +25,8 @@ public class SecurityConfig {
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     public static final String PATH_V1_GAMES = "/v1/games";
     public static final String PATH_V1_GAMES_ALL = "/v1/games/**";
+    public static final String PATH_USERS = "/users";
+    public static final String PATH_USERS_ALL = "/users/**";
     private final CorsProperties corsProperties;
 
     public SecurityConfig(CorsProperties corsProperties) {
@@ -58,6 +60,9 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(HttpMethod.GET, PATH_V1_GAMES, PATH_V1_GAMES_ALL).permitAll()
+                .requestMatchers(HttpMethod.GET, PATH_USERS, PATH_USERS_ALL).permitAll()
+                .requestMatchers(HttpMethod.POST, PATH_USERS).permitAll()
+                .requestMatchers(HttpMethod.PUT, PATH_USERS_ALL).permitAll()
                 .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/api-docs", "/api-docs/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
                 .requestMatchers(HttpMethod.POST, PATH_V1_GAMES).authenticated()
